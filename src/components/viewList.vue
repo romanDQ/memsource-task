@@ -1,26 +1,43 @@
 <template>
   <div class="viewList">
     <h2>Project List:</h2>
-    <button @click="sortName">Sort by Name</button>
-    <button @click="sortID">Sort by ID</button>
-   
-    <div>
-      <button
+    
+    <button class="btn btn-primary" style="margin-right: 10px;" @click="sortName">Sort by Name</button>
+    <button class="btn btn-primary" style="margin-right: 10px;" @click="sortID">Sort by ID</button>
+    <button class="btn btn-primary" style="margin-right: 10px;" @click="sortStatus">Sort by Status</button>
+    <button class="btn btn-primary" style="margin-right: 10px;" @click="sortDate">Sort by Date</button>
+
+    <div class="filter-container">
+      <b-button pill variant="outline-secondary"
+        style="margin-right: 10px;"
         :class="{active: filter =='filterByName'}"
         @click="filter = 'filterByName'"
-      >Filter by Name</button>
-      <button
+      >
+      Filter by Name
+      </b-button>
+
+      <b-button pill style="margin-right: 10px;"
+        variant="outline-secondary"
         :class="{active: filter =='filterByStatus'}"
         @click="filter = 'filterByStatus'"
-      >Filter by Status</button>
+      >
+      Filter by Status
+      </b-button>
+
+      <div class="filter-input">
+        <b-form-input v-model="search" placeholder="search with filter:"></b-form-input>
+      </div>
     </div>
-    <input v-model="search" />
-    <ul>
-      <li v-for="list in filteredList" :key="list.id">
-        <projectList v-bind:list="list"/>
-        <hr />
-      </li>
-    </ul>
+
+    <div class="project-list">
+      <ul>
+        <li v-for="list in filteredList" :key="list.id">
+          <projectList v-bind:list="list" />
+          <hr />
+        </li>
+        <div></div>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -28,13 +45,12 @@
 import projectList from "./projectList";
 
 export default {
- 
   props: ["projects"],
 
   data() {
     return {
-      filter: '',
-      search: ''
+      filter: "",
+      search: "",
     };
   },
 
@@ -45,13 +61,11 @@ export default {
   methods: {
     sortName() {
       this.projects.sort((a, b) => {
-        var nameA = a.name.toLowerCase(),
-          nameB = b.name.toLowerCase();
-        if (nameA < nameB)
-         
-          return -1;
-        if (nameA > nameB) return 1;
-        return 0; 
+        let firstName = a.name.toLowerCase(),
+          secondName = b.name.toLowerCase();
+        if (firstName < secondName) return -1;
+        if (firstName > secondName) return 1;
+        return 0;
       });
     },
     sortID() {
@@ -59,6 +73,24 @@ export default {
         return a.id - b.id;
       });
     },
+
+    sortStatus() {
+      this.projects.sort((a, b) => {
+        let firstStatus = a.status.toLowerCase(),
+          secondStatus = b.status.toLowerCase();
+        if (secondStatus < firstStatus) return -1;
+        if (secondStatus > firstStatus) return 1;
+        return 0;
+      });
+    },
+
+    sortDate() {
+      this.projects.sort((a, b) => {
+        let firstDate = new Date(a.dateDue),
+          secondDate = new Date(b.dateDue);
+        return secondDate - firstDate;
+      });
+    }
   },
 
   computed: {
@@ -74,13 +106,29 @@ export default {
       }
 
       return this.projects;
-    }
+    },
   }
 };
 </script>
 
 <style>
-.viewList{
-    text-align: center;
+.viewList {
+  display: block;
+  text-align: center;
+  margin: 25px 300px 75px 300px;
+}
+
+.project-list {
+  display: block;
+  margin: 75px 75px 75px 100px;
+  color: black;
+}
+
+.filter-container {
+  padding: 20px;
+}
+
+.filter-input {
+  margin: 15px;
 }
 </style>
