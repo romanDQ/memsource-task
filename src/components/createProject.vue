@@ -1,31 +1,36 @@
 <template>
     <div>
          <h2>hello</h2>
-        <button @click="addData">Add Projects</button>
+         <input type="text" v-model="toAdd.name">Name:
+         <input type="text" v-model="toAdd.status">Status:
+         <input type="text" v-model="toAdd.sourceLanguage">Source:
+         <input type="text" v-model="toAdd.targetLanguage">Target:
+         {{toAdd.name}}
+        <button @click="$emit('add-project', toAdd)">Add Projects</button>
+
+        
     </div>
+    
     
 </template>
 
 <script>
 export default {
-   
-
     data(){
         return{
             toAdd: {
-                name: 'MOFO',
-                status: 'DELIVERED'
+                name: '',
+                status: '',
+                sourceLanguage: '',
+                targetLanguage: ['']
             }
         }
     },
 
-    props:[],
-
     methods:{
-        addData(event){
-            this.$emit('addProject')
-            console.log(this.toAdd)
-        }
+        
     }
+
+    
 }
 </script>

@@ -1,9 +1,10 @@
 <template>
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
-    <createProject  @addProject="result = addData"/>
+    <createProject v-on:add-project="addProject"/>
     <hr>
     <view-list :projects='result'/>
+
     {{result}}
   </div>
 </template>
@@ -32,22 +33,23 @@ export default {
 
   methods: {
     getData(){
-        axios.get('backendData.json')
+        axios.get('db.json')
         .then(res => {
       this.result = res.data._embedded.projects
-      // console.log(res.data.consolidated_weather[0])
-      // console.log(this.result)
+     
       })
       .catch(error => console.log(error));
+    },
+
+    addProject(toAdd){
+     
+    axios.post('db.json', toAdd)
+    .then(res=>  this.result = [...this.result, res.data._embedded.projects])
+    .catch(err=>console.log(err))
     }
   },
 
-  addData(){
-    this.result.push({
-      name: 'MOFO',
-      status: 'DELIVERED'
-    })
-  }
+  
   
 }
 </script>

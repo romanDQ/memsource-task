@@ -6,7 +6,7 @@
       <p>id: {{list.id}}</p>
       <p>status: {{list.status}}</p>
       <p>due date: {{list.dateDue}}</p>
-      <p>languages: {{list.targetLanguages}}</p>
+      <p>target languages: {{list.targetLanguages}}</p>
   </div>
 </section>
  
